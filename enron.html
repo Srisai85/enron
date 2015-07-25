@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Enron Fraud: Email/Text Analytics</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>Enron Fraud: Email/Text Analytics</h1>
+
+<h2>By: Srisai Sivakumar</h2>
+
+<p>Previously we saw the use of Analytics and Machine Learning to predict the judgements of cases by the US Supreme Court. In this section, we would still be discussing a problem that has legal dimension to it, but from a different context. In this study, we confine ourself to only the tree based models</p>
+
+<h3>Introduction</h3>
+
+<p>Enron Corporation was an American energy, commodities, and services company based in Houston, Texas. Before its bankruptcy on December 2, 2001, Enron employed approximately 20,000 staff and was one of the world&#39;s major electricity, natural gas, communications, and pulp and paper companies, with claimed revenues of nearly $111 billion during 2000. Fortune named Enron &ldquo;America&#39;s Most Innovative Company&rdquo; for six consecutive years.</p>
+
+<p>At the end of 2001, it was revealed that its reported financial condition was sustained substantially by an institutionalized, systematic, and creatively planned accounting fraud, known since as the Enron scandal. Enron has since become a well-known example of willful corporate fraud and corruption. </p>
+
+<h3>California Energy Crisis</h3>
+
+<p>The California electricity crisis, also known as the Western U.S. Energy Crisis of 2000 and 2001, was a situation in which the United States state of California had a shortage of electricity supply caused by market manipulations, illegal shutdowns of pipelines by the Texas energy consortium Enron, and capped retail electricity prices. The state suffered from multiple large-scale blackouts.</p>
+
+<p>California had an installed generating capacity of 45GW. At the time of the blackouts, demand was 28GW. A demand supply gap was created by energy companies, mainly Enron, to create an artificial shortage. Energy traders took power plants offline for maintenance in days of peak demand to increase the price. Traders were thus able to sell power at premium prices, sometimes up to a factor of 20 times its normal value, thus makinf profit from the market instability.</p>
+
+<p>The Federal Energy Regulatory Commission (FERC) investigated Enron&#39;s involvement. The investigation led to a $1.52 billion settlement with a group of California agencies and private utilities on July 16, 2005. However, due to its other bankruptcy obligations, only US$202 million of this was expected to be paid.</p>
+
+<h3>The dataset</h3>
+
+<p>As a company of Enron&#39;s (then) stature, it had millions of electronic files. In this study, we will analyze the so called Enron Corpus. The Enron Corpus is a large database of over 600,000 emails generated by 158 employees of the Enron Corporation. The corpus is &ldquo;unique&rdquo; in that it is one of the only publicly available mass collections of &ldquo;real&rdquo; emails easily available for study, as such collections are typically bound by numerous privacy and legal restrictions which render them prohibitively difficult to access.</p>
+
+<p>FERC publicly released emails from Enron. It had over 600,000 emails from 158 users, which consisted mostly of senior management officials. We will use labeled emails from the 2010 Text Retrieval Conference Legal Track. It consists of: </p>
+
+<ul>
+<li>email - text of the message</li>
+<li>responsive - does email relate to energy schedules or bids?</li>
+</ul>
+
+<p>The &#39;responsive&#39; option bears the opinions of legal experts. We would use this model to predict if a selected email is likely to indicative of involvement in the bidding.</p>
+
+<p>The set consists of around 860 emails, which after cleaning and transforming, would be split into the training and test sets.</p>
+
+<h3>Approach</h3>
+
+<p>We will use Text Analytics, which according to Wikipedia &ldquo;describes a set of linguistic, statistical, and machine learning techniques that model and structure the information content of textual sources for business intelligence, exploratory data analysis, research, or investigation&rdquo;.</p>
+
+<p>It has to be kept in mind that Text Analytics comes with its own set of caveats. Texts such as emails and tweets are often &#39;loosely&#39; structured. Its almost certain that 2 different individuals would structure their emails or tweets differently. And we find that such texts tend to have poor spellings, non-traditional grammar and at times, multi-lingual. I used to work for a Danish organization and I can vouch for the number of emails that had Danish content in it :)</p>
+
+<p>Our text analytics process would involve exploring the corpus or body of text, cleaning it to be fit for analysis, transforming the text data into a &#39;sparse&#39; matrix like data using technique such as &#39;Bag of Words&#39;, Stop Words, Stemming, etc., clustering the transformed data to visually inspect the patterns in it, other visual ways of exploring the data and analytically modelling the corpus to predict certain outcomes. </p>
+
+<h3>Analysis</h3>
+
+<h4>The data</h4>
+
+<p>We begin by loading the data and inspecting the structure of the data.</p>
+
+<pre><code>## &#39;data.frame&#39;:    855 obs. of  2 variables:
+##  $ email     : chr  &quot;North America&#39;s integrated electricity market requires cooperation on environmental policies Commission for Environmental Coope&quot;| __truncated__ &quot;FYI -----Original Message----- From: \t\&quot;Ginny Feliciano\&quot; &lt;gfeliciano@earthlink.net&gt;@ENRON [mailto:IMCEANOTES-+22Ginny+20Felic&quot;| __truncated__ &quot;14:13:53 Synchronizing Mailbox &#39;Kean, Steven J.&#39; 14:13:53 Synchronizing Hierarchy 14:13:53 Synchronizing Favorites 14:13:53 Syn&quot;| __truncated__ &quot;^ ----- Forwarded by Steven J Kean/NA/Enron on 03/02/2001 12:27 PM ----- Suzanne_Nimocks@mckinsey.com Sent by: Carol_Benter@mck&quot;| __truncated__ ...
+##  $ responsive: int  0 1 0 1 0 0 1 0 0 0 ...
+</code></pre>
+
+<p>Lets take a look at the first 2 emails. Lets also check if these emails are responsive.</p>
+
+<pre><code class="r"># display first email
+
+emails$email[1]
+</code></pre>
+
+<pre><code>## [1] &quot;North America&#39;s integrated electricity market requires cooperation on environmental policies Commission for Environmental Cooperation releases working paper on North America&#39;s electricity market Montreal, 27 November 2001 -- The North American Commission for Environmental Cooperation (CEC) is releasing a working paper highlighting the trend towards increasing trade, competition and cross-border investment in electricity between Canada, Mexico and the United States. It is hoped that the working paper, Environmental Challenges and Opportunities in the Evolving North American Electricity Market, will stimulate public discussion around a CEC symposium of the same title about the need to coordinate environmental policies trinationally as a North America-wide electricity market develops. The CEC symposium will take place in San Diego on 29-30 November, and will bring together leading experts from industry, academia, NGOs and the governments of Canada, Mexico and the United States to consider the impact of the evolving continental electricity market on human health and the environment. \&quot;Our goal [with the working paper and the symposium] is to highlight key environmental issues that must be addressed as the electricity markets in North America become more and more integrated,\&quot; said Janine Ferretti, executive director of the CEC. \&quot;We want to stimulate discussion around the important policy questions being raised so that countries can cooperate in their approach to energy and the environment.\&quot; The CEC, an international organization created under an environmental side agreement to NAFTA known as the North American Agreement on Environmental Cooperation, was established to address regional environmental concerns, help prevent potential trade and environmental conflicts, and promote the effective enforcement of environmental law. The CEC Secretariat believes that greater North American cooperation on environmental policies regarding the continental electricity market is necessary to: *  protect air quality and mitigate climate change, *  minimize the possibility of environment-based trade disputes, *  ensure a dependable supply of reasonably priced electricity across North America *  avoid creation of pollution havens, and *  ensure local and national environmental measures remain effective. The Changing Market The working paper profiles the rapid changing North American electricity market. For example, in 2001, the US is projected to export 13.1 thousand gigawatt-hours (GWh) of electricity to Canada and Mexico. By 2007, this number is projected to grow to 16.9 thousand GWh of electricity. \&quot;Over the past few decades, the North American electricity market has developed into a complex array of cross-border transactions and relationships,\&quot; said Phil Sharp, former US congressman and chairman of the CEC&#39;s Electricity Advisory Board. \&quot;We need to achieve this new level of cooperation in our environmental approaches as well.\&quot; The Environmental Profile of the Electricity Sector The electricity sector is the single largest source of nationally reported toxins in the United States and Canada and a large source in Mexico. In the US, the electricity sector emits approximately 25 percent of all NOx emissions, roughly 35 percent of all CO2 emissions, 25 percent of all mercury emissions and almost 70 percent of SO2 emissions. These emissions have a large impact on airsheds, watersheds and migratory species corridors that are often shared between the three North American countries. \&quot;We want to discuss the possible outcomes from greater efforts to coordinate federal, state or provincial environmental laws and policies that relate to the electricity sector,\&quot; said Ferretti. \&quot;How can we develop more compatible environmental approaches to help make domestic environmental policies more effective?\&quot; The Effects of an Integrated Electricity Market One key issue raised in the paper is the effect of market integration on the competitiveness of particular fuels such as coal, natural gas or renewables. Fuel choice largely determines environmental impacts from a specific facility, along with pollution control technologies, performance standards and regulations. The paper highlights other impacts of a highly competitive market as well. For example, concerns about so called \&quot;pollution havens\&quot; arise when significant differences in environmental laws or enforcement practices induce power companies to locate their operations in jurisdictions with lower standards. \&quot;The CEC Secretariat is exploring what additional environmental policies will work in this restructured market and how these policies can be adapted to ensure that they enhance competitiveness and benefit the entire region,\&quot; said Sharp. Because trade rules and policy measures directly influence the variables that drive a successfully integrated North American electricity market, the working paper also addresses fuel choice, technology, pollution control strategies and subsidies. The CEC will use the information gathered during the discussion period to develop a final report that will be submitted to the Council in early 2002. For more information or to view the live video webcast of the symposium, please go to: http://www.cec.org/electricity. You may download the working paper and other supporting documents from: http://www.cec.org/programs_projects/other_initiatives/electricity/docs.cfm?varlan=english. Commission for Environmental Cooperation 393, rue St-Jacques Ouest, Bureau 200 MontrÃ©al (QuÃ©bec) Canada H2Y 1N9 Tel: (514) 350-4300; Fax: (514) 350-4314 E-mail: info@ccemtl.org ***********&quot;
+</code></pre>
+
+<pre><code class="r"># The display style is not easy to read. So lets wap the text (similar as text warp in excel, to fir the contents into one cell,, screen in our case)
+strwrap(emails$email[1])
+</code></pre>
+
+<pre><code>##  [1] &quot;North America&#39;s integrated electricity market requires cooperation&quot;                         
+##  [2] &quot;on environmental policies Commission for Environmental Cooperation&quot;                         
+##  [3] &quot;releases working paper on North America&#39;s electricity market&quot;                               
+##  [4] &quot;Montreal, 27 November 2001 -- The North American Commission for&quot;                            
+##  [5] &quot;Environmental Cooperation (CEC) is releasing a working paper&quot;                               
+##  [6] &quot;highlighting the trend towards increasing trade, competition and&quot;                           
+##  [7] &quot;cross-border investment in electricity between Canada, Mexico and&quot;                          
+##  [8] &quot;the United States. It is hoped that the working paper,&quot;                                     
+##  [9] &quot;Environmental Challenges and Opportunities in the Evolving North&quot;                           
+## [10] &quot;American Electricity Market, will stimulate public discussion&quot;                              
+## [11] &quot;around a CEC symposium of the same title about the need to&quot;                                 
+## [12] &quot;coordinate environmental policies trinationally as a North&quot;                                 
+## [13] &quot;America-wide electricity market develops. The CEC symposium will&quot;                           
+## [14] &quot;take place in San Diego on 29-30 November, and will bring together&quot;                         
+## [15] &quot;leading experts from industry, academia, NGOs and the governments&quot;                          
+## [16] &quot;of Canada, Mexico and the United States to consider the impact of&quot;                          
+## [17] &quot;the evolving continental electricity market on human health and&quot;                            
+## [18] &quot;the environment. \&quot;Our goal [with the working paper and the&quot;                                
+## [19] &quot;symposium] is to highlight key environmental issues that must be&quot;                           
+## [20] &quot;addressed as the electricity markets in North America become more&quot;                          
+## [21] &quot;and more integrated,\&quot; said Janine Ferretti, executive director of&quot;                         
+## [22] &quot;the CEC. \&quot;We want to stimulate discussion around the important&quot;                            
+## [23] &quot;policy questions being raised so that countries can cooperate in&quot;                           
+## [24] &quot;their approach to energy and the environment.\&quot; The CEC, an&quot;                                
+## [25] &quot;international organization created under an environmental side&quot;                             
+## [26] &quot;agreement to NAFTA known as the North American Agreement on&quot;                                
+## [27] &quot;Environmental Cooperation, was established to address regional&quot;                             
+## [28] &quot;environmental concerns, help prevent potential trade and&quot;                                   
+## [29] &quot;environmental conflicts, and promote the effective enforcement of&quot;                          
+## [30] &quot;environmental law. The CEC Secretariat believes that greater North&quot;                         
+## [31] &quot;American cooperation on environmental policies regarding the&quot;                               
+## [32] &quot;continental electricity market is necessary to: * protect air&quot;                              
+## [33] &quot;quality and mitigate climate change, * minimize the possibility of&quot;                         
+## [34] &quot;environment-based trade disputes, * ensure a dependable supply of&quot;                          
+## [35] &quot;reasonably priced electricity across North America * avoid&quot;                                 
+## [36] &quot;creation of pollution havens, and * ensure local and national&quot;                              
+## [37] &quot;environmental measures remain effective. The Changing Market The&quot;                           
+## [38] &quot;working paper profiles the rapid changing North American&quot;                                   
+## [39] &quot;electricity market. For example, in 2001, the US is projected to&quot;                           
+## [40] &quot;export 13.1 thousand gigawatt-hours (GWh) of electricity to Canada&quot;                         
+## [41] &quot;and Mexico. By 2007, this number is projected to grow to 16.9&quot;                              
+## [42] &quot;thousand GWh of electricity. \&quot;Over the past few decades, the North&quot;                        
+## [43] &quot;American electricity market has developed into a complex array of&quot;                          
+## [44] &quot;cross-border transactions and relationships,\&quot; said Phil Sharp,&quot;                            
+## [45] &quot;former US congressman and chairman of the CEC&#39;s Electricity&quot;                                
+## [46] &quot;Advisory Board. \&quot;We need to achieve this new level of cooperation&quot;                         
+## [47] &quot;in our environmental approaches as well.\&quot; The Environmental&quot;                               
+## [48] &quot;Profile of the Electricity Sector The electricity sector is the&quot;                            
+## [49] &quot;single largest source of nationally reported toxins in the United&quot;                          
+## [50] &quot;States and Canada and a large source in Mexico. In the US, the&quot;                             
+## [51] &quot;electricity sector emits approximately 25 percent of all NOx&quot;                               
+## [52] &quot;emissions, roughly 35 percent of all CO2 emissions, 25 percent of&quot;                          
+## [53] &quot;all mercury emissions and almost 70 percent of SO2 emissions.&quot;                              
+## [54] &quot;These emissions have a large impact on airsheds, watersheds and&quot;                            
+## [55] &quot;migratory species corridors that are often shared between the&quot;                              
+## [56] &quot;three North American countries. \&quot;We want to discuss the possible&quot;                          
+## [57] &quot;outcomes from greater efforts to coordinate federal, state or&quot;                              
+## [58] &quot;provincial environmental laws and policies that relate to the&quot;                              
+## [59] &quot;electricity sector,\&quot; said Ferretti. \&quot;How can we develop more&quot;                             
+## [60] &quot;compatible environmental approaches to help make domestic&quot;                                  
+## [61] &quot;environmental policies more effective?\&quot; The Effects of an&quot;                                 
+## [62] &quot;Integrated Electricity Market One key issue raised in the paper is&quot;                         
+## [63] &quot;the effect of market integration on the competitiveness of&quot;                                 
+## [64] &quot;particular fuels such as coal, natural gas or renewables. Fuel&quot;                             
+## [65] &quot;choice largely determines environmental impacts from a specific&quot;                            
+## [66] &quot;facility, along with pollution control technologies, performance&quot;                           
+## [67] &quot;standards and regulations. The paper highlights other impacts of a&quot;                         
+## [68] &quot;highly competitive market as well. For example, concerns about so&quot;                          
+## [69] &quot;called \&quot;pollution havens\&quot; arise when significant differences in&quot;                          
+## [70] &quot;environmental laws or enforcement practices induce power companies&quot;                         
+## [71] &quot;to locate their operations in jurisdictions with lower standards.&quot;                          
+## [72] &quot;\&quot;The CEC Secretariat is exploring what additional environmental&quot;                           
+## [73] &quot;policies will work in this restructured market and how these&quot;                               
+## [74] &quot;policies can be adapted to ensure that they enhance&quot;                                        
+## [75] &quot;competitiveness and benefit the entire region,\&quot; said Sharp.&quot;                               
+## [76] &quot;Because trade rules and policy measures directly influence the&quot;                             
+## [77] &quot;variables that drive a successfully integrated North American&quot;                              
+## [78] &quot;electricity market, the working paper also addresses fuel choice,&quot;                          
+## [79] &quot;technology, pollution control strategies and subsidies. The CEC&quot;                            
+## [80] &quot;will use the information gathered during the discussion period to&quot;                          
+## [81] &quot;develop a final report that will be submitted to the Council in&quot;                            
+## [82] &quot;early 2002. For more information or to view the live video webcast&quot;                         
+## [83] &quot;of the symposium, please go to: http://www.cec.org/electricity.&quot;                            
+## [84] &quot;You may download the working paper and other supporting documents&quot;                          
+## [85] &quot;from:&quot;                                                                                      
+## [86] &quot;http://www.cec.org/programs_projects/other_initiatives/electricity/docs.cfm?varlan=english.&quot;
+## [87] &quot;Commission for Environmental Cooperation 393, rue St-Jacques&quot;                               
+## [88] &quot;Ouest, Bureau 200 MontrÃ©al (QuÃ©bec) Canada H2Y 1N9 Tel: (514)&quot;                            
+## [89] &quot;350-4300; Fax: (514) 350-4314 E-mail: info@ccemtl.org ***********&quot;
+</code></pre>
+
+<pre><code class="r"># responsive?
+emails$responsive[1]
+</code></pre>
+
+<pre><code>## [1] 0
+</code></pre>
+
+<pre><code class="r"># Lets do it for the second email too.
+
+emails$email[2]
+</code></pre>
+
+<pre><code>## [1] &quot;FYI -----Original Message----- From: \t\&quot;Ginny Feliciano\&quot; &lt;gfeliciano@earthlink.net&gt;@ENRON [mailto:IMCEANOTES-+22Ginny+20Feliciano+22+20+3Cgfeliciano+40earthlink+2Enet+3E+40ENRON@ENRON.com] Sent:\tThursday, June 28, 2001 3:40 PM To:\tSilvia Woodard; Paul Runci; Katrin Thomas; John A. Riggs; Kurt E. Yeager; Gregg Ward; Philip K. Verleger; Admiral Richard H. Truly; Susan Tomasky; Tsutomu Toichi; Susan F. Tierney; John A. Strom; Gerald M. Stokes; Kevin Stoffer; Edward M. Stern; Irwin M. Stelzer; Hoff Stauffer; Steven R. Spencer; Robert Smart; Bernie Schroeder; George A. Schreiber, Jr.; Robert N. Schock; James R. Schlesinger; Roger W. Sant; John W. Rowe; James E. Rogers; John F. Riordan; James Ragland; Frank J. Puzio; Tony Prophet; Robert Priddle; Michael Price; John B. Phillips; Robert Perciasepe; D. Louis Peoples; Robert Nordhaus; Walker Nolan; William A. Nitze; Kazutoshi Muramatsu; Ernest J. Moniz; Nancy C. Mohn; Callum McCarthy; Thomas R. Mason; Edward P. Martin; Jan W. Mares; James K. Malernee; S. David Freeman; Edwin Lupberger; Amory B. Lovins; Lynn LeMaster; Hoesung Lee; Lay, Kenneth; Lester Lave; Wilfrid L. Kohl; Soo Kyung Kim; Melanie Kenderdine; Paul L. Joskow; Ira H. Jolles; Frederick E. John; John Jimison; William W. Hogan; Robert A. Hefner, III; James K. Gray; Craig G. Goodman; Charles F. Goff, Jr.; Jerry D. Geist; Fritz Gautschi; Larry G. Garberding; Roger Gale; William Fulkerson; Stephen E. Frank; George Frampton; Juan Eibenschutz; Theodore R. Eck; Congressman John Dingell; Brian N. Dickie; William E. Dickenson; Etienne Deffarges; Wilfried Czernie; Loren C. Cox; Anne Cleary; Bernard H. Cherry; Red Cavaney; Ralph Cavanagh; Thomas R. Casten; Peter Bradford; Peter D. Blair; Ellen Berman; Roger A. Berliner; Michael L. Beatty; Vicky A. Bailey; Merribel S. Ayres; Catherine G. Abbott Subject:\tEnergy Deregulation - California State Auditor Report Attached is my report prepared on behalf of the  California State Auditor. I look forward to seeing you at The Aspen  Institute Energy Policy Forum. Charles J. Cicchetti Pacific Economics Group, LLC - ca report new.pdf ***********&quot;
+</code></pre>
+
+<pre><code class="r">emails$responsive[2]
+</code></pre>
+
+<pre><code>## [1] 1
+</code></pre>
+
+<pre><code class="r"># To get an understanding of the total number of responsive emails, lets to a table of values for the responsive feature of the data frame.
+
+table(emails$responsive)
+</code></pre>
+
+<pre><code>## 
+##   0   1 
+## 716 139
+</code></pre>
+
+<p>The secome email has turned out to be anti-climatic. Its a forwarded email with no inherent content in it. Such emails are beyond the scope of this study.</p>
+
+<h4>Transformations</h4>
+
+<p>We now begin the use of the &#39;tm&#39; package.</p>
+
+<p>We begin by cleaning and tidying the data. This involvs multiple steps.</p>
+
+<p>It is important to know R treats &#39;help&#39;, &#39;Help&#39;, &#39;hElP&#39;, and &#39;HELP&#39; differently. i.e. R treats upper and lower case representation of the same word as different words. So as part of the cleaning, we convert all the contents of the email to lower case.</p>
+
+<p>First we define the data as a corpus and they do the lower case transformation. Once its done, we define the corpus to be a plain text document. We then proceed to remove parts of the text data that doesnt add any value to the analysis- like punctuations.</p>
+
+<p>An example of a partly cleaned email is shown below.</p>
+
+<pre><code>## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 5607
+</code></pre>
+
+<pre><code>## [1] &quot;north americas integrated electricity market requires cooperation on environmental policies commission for environmental cooperation releases working paper on north americas electricity market montreal 27 november 2001  the north american commission for environmental cooperation cec is releasing a working paper highlighting the trend towards increasing trade competition and crossborder investment in electricity between canada mexico and the united states it is hoped that the working paper environmental challenges and opportunities in the evolving north american electricity market will stimulate public discussion around a cec symposium of the same title about the need to coordinate environmental policies trinationally as a north americawide electricity market develops the cec symposium will take place in san diego on 2930 november and will bring together leading experts from industry academia ngos and the governments of canada mexico and the united states to consider the impact of the evolving continental electricity market on human health and the environment our goal with the working paper and the symposium is to highlight key environmental issues that must be addressed as the electricity markets in north america become more and more integrated said janine ferretti executive director of the cec we want to stimulate discussion around the important policy questions being raised so that countries can cooperate in their approach to energy and the environment the cec an international organization created under an environmental side agreement to nafta known as the north american agreement on environmental cooperation was established to address regional environmental concerns help prevent potential trade and environmental conflicts and promote the effective enforcement of environmental law the cec secretariat believes that greater north american cooperation on environmental policies regarding the continental electricity market is necessary to   protect air quality and mitigate climate change   minimize the possibility of environmentbased trade disputes   ensure a dependable supply of reasonably priced electricity across north america   avoid creation of pollution havens and   ensure local and national environmental measures remain effective the changing market the working paper profiles the rapid changing north american electricity market for example in 2001 the us is projected to export 131 thousand gigawatthours gwh of electricity to canada and mexico by 2007 this number is projected to grow to 169 thousand gwh of electricity over the past few decades the north american electricity market has developed into a complex array of crossborder transactions and relationships said phil sharp former us congressman and chairman of the cecs electricity advisory board we need to achieve this new level of cooperation in our environmental approaches as well the environmental profile of the electricity sector the electricity sector is the single largest source of nationally reported toxins in the united states and canada and a large source in mexico in the us the electricity sector emits approximately 25 percent of all nox emissions roughly 35 percent of all co2 emissions 25 percent of all mercury emissions and almost 70 percent of so2 emissions these emissions have a large impact on airsheds watersheds and migratory species corridors that are often shared between the three north american countries we want to discuss the possible outcomes from greater efforts to coordinate federal state or provincial environmental laws and policies that relate to the electricity sector said ferretti how can we develop more compatible environmental approaches to help make domestic environmental policies more effective the effects of an integrated electricity market one key issue raised in the paper is the effect of market integration on the competitiveness of particular fuels such as coal natural gas or renewables fuel choice largely determines environmental impacts from a specific facility along with pollution control technologies performance standards and regulations the paper highlights other impacts of a highly competitive market as well for example concerns about so called pollution havens arise when significant differences in environmental laws or enforcement practices induce power companies to locate their operations in jurisdictions with lower standards the cec secretariat is exploring what additional environmental policies will work in this restructured market and how these policies can be adapted to ensure that they enhance competitiveness and benefit the entire region said sharp because trade rules and policy measures directly influence the variables that drive a successfully integrated north american electricity market the working paper also addresses fuel choice technology pollution control strategies and subsidies the cec will use the information gathered during the discussion period to develop a final report that will be submitted to the council in early 2002 for more information or to view the live video webcast of the symposium please go to httpwwwcecorgelectricity you may download the working paper and other supporting documents from httpwwwcecorgprogramsprojectsotherinitiativeselectricitydocscfmvarlanenglish commission for environmental cooperation 393 rue stjacques ouest bureau 200 montrãal quãbec canada h2y 1n9 tel 514 3504300 fax 514 3504314 email infoccemtlorg &quot;
+</code></pre>
+
+<h5>Stop Words</h5>
+
+<p>Stop words are a set of commonly used words in any language, in our case, English. Stop words (its absence!) is important to many applications. It helps eliminate words that are unlikely to contribute to better predictionthus helps reduce the size of the data. It also helps the algorithm focus on the &#39;important&#39; words in the context of the problem in hand. </p>
+
+<p>A simple analogy can be drawn using a google search. Say you want to learn R programming. You google &#39;how do I learn R programming&#39;. It would give you lots of pages that match your search. But one must be mindful of the fact that it has search terms like &#39;how&#39;, &#39;do&#39; and &#39;I&#39;, which do not contribute meaningfully over the search phrase &#39;leann r programming&#39;, but instead gives tou some pages that are relevant to the words &#39;I&#39;, &#39;do&#39;, etc. This is the basic idea of stop words. They can be used in a whole range of tasks and but we are using it for:</p>
+
+<ul>
+<li><p>Supervised machine learning: removing stop words from the feature space</p></li>
+<li><p>Clustering: removing stop words prior to generating clusters</p></li>
+</ul>
+
+<p>Stop words can be thought to be a &ldquo;single set of words&rdquo;. But in reality, mean different things to different applications. For example, in some applications removing all stop words right from determiners (e.g. the, a, an) to prepositions (e.g. above, across, before) to some adjectives (e.g. good, nice) can be an appropriate stop word list. This is expected to work well in our case. However to some applications, this can be detrimental. In sentiment analysis, for instance, removing adjective terms such as &#39;good&#39; and &#39;nice&#39; or &#39;not&#39; can cause algorithms to misinterpret the data. In such cases, more thought needs to be given to the choice of Stop Words.</p>
+
+<h5>Stemming</h5>
+
+<p>Lets ask ourselves a question: Do we need to draw a distinction between the following words, in context of the task in hand? </p>
+
+<p>argue argued argues arguing
+test tests testing</p>
+
+<p>The answer is not necessarily. Distinction between these words are not expected to contribute to the performance of our prediction. it can be thought of a common &#39;stem&#39; word like argu or test respectively can represent these words effectively for our analysis. The algorithmic process of performing this reduction is called stemming. Many ways to approach the problem.</p>
+
+<p>One approach is to build a database of words and their stems</p>
+
+<ul>
+<li><p>Pro: handles exceptions</p></li>
+<li><p>Con: won&#39;t handle new words, bad for the Internet!</p></li>
+</ul>
+
+<p>Another approach is developing a rule-based algorithm, where, for example, if word ends in &ldquo;ed&rdquo;, &ldquo;ing&rdquo;, or &ldquo;ly&rdquo;, we remove it ending. </p>
+
+<ul>
+<li><p>Pro: handles new/unknown words well</p></li>
+<li><p>Con: many exceptions, misses words like child and children (but would get other plurals: dog and dogs)</p></li>
+</ul>
+
+<p>The second option is widely popular. The &ldquo;Porter Stemmer&rdquo; algorithm was developed by Martin Porter in the 80&#39;s, and is still widely used! We use the default stemming algorithm in the tm package.</p>
+
+<p>An example of an email that has been removed of the stop words and stemmed is shown below.</p>
+
+<pre><code>## [1] &quot;north america integr electr market requir cooper  environment polici commiss  environment cooper releas work paper  north america electr market montreal 27 novemb 2001   north american commiss  environment cooper cec  releas  work paper highlight  trend toward increas trade competit  crossbord invest  electr  canada mexico   unit state   hope   work paper environment challeng  opportun   evolv north american electr market will stimul public discuss around  cec symposium    titl   need  coordin environment polici trinat   north americawid electr market develop  cec symposium will take place  san diego  2930 novemb  will bring togeth lead expert  industri academia ngos   govern  canada mexico   unit state  consid  impact   evolv continent electr market  human health   environ  goal   work paper   symposium   highlight key environment issu  must  address   electr market  north america becom    integr said janin ferretti execut director   cec  want  stimul discuss around  import polici question  rais   countri can cooper   approach  energi   environ  cec  intern organ creat   environment side agreement  nafta known   north american agreement  environment cooper  establish  address region environment concern help prevent potenti trade  environment conflict  promot  effect enforc  environment law  cec secretariat believ  greater north american cooper  environment polici regard  continent electr market  necessari    protect air qualiti  mitig climat chang   minim  possibl  environmentbas trade disput   ensur  depend suppli  reason price electr across north america   avoid creation  pollut haven    ensur local  nation environment measur remain effect  chang market  work paper profil  rapid chang north american electr market  exampl  2001  us  project  export 131 thousand gigawatthour gwh  electr  canada  mexico  2007  number  project  grow  169 thousand gwh  electr   past  decad  north american electr market  develop   complex array  crossbord transact  relationship said phil sharp former us congressman  chairman   cec electr advisori board  need  achiev  new level  cooper   environment approach  well  environment profil   electr sector  electr sector   singl largest sourc  nation report toxin   unit state  canada   larg sourc  mexico   us  electr sector emit approxim 25 percent   nox emiss rough 35 percent   co2 emiss 25 percent   mercuri emiss  almost 70 percent  so2 emiss  emiss   larg impact  airsh watersh  migratori speci corridor   often share   three north american countri  want  discuss  possibl outcom  greater effort  coordin feder state  provinci environment law  polici  relat   electr sector said ferretti  can  develop  compat environment approach  help make domest environment polici  effect  effect   integr electr market one key issu rais   paper   effect  market integr   competit  particular fuel   coal natur gas  renew fuel choic larg determin environment impact   specif facil along  pollut control technolog perform standard  regul  paper highlight  impact   high competit market  well  exampl concern   call pollut haven aris  signific differ  environment law  enforc practic induc power compani  locat  oper  jurisdict  lower standard  cec secretariat  explor  addit environment polici will work   restructur market    polici can  adapt  ensur   enhanc competit  benefit  entir region said sharp  trade rule  polici measur direct influenc  variabl  drive  success integr north american electr market  work paper also address fuel choic technolog pollut control strategi  subsidi  cec will use  inform gather   discuss period  develop  final report  will  submit   council  earli 2002   inform   view  live video webcast   symposium pleas go  httpwwwcecorgelectr  may download  work paper   support document  httpwwwcecorgprogramsprojectsotherinitiativeselectricitydocscfmvarlanenglish commiss  environment cooper 393 rue stjacqu ouest bureau 200 montrãal quãbec canada h2i 1n9 tel 514 3504300 fax 514 3504314 email infoccemtlorg&quot;
+</code></pre>
+
+<h5>Sparsity</h5>
+
+<p>We not transform the corpus into a matrix and we proceed to make it sparse. The sparse matrix is, as the name suggests, is sparse, meaning that it has sparse data. Its mostly zeros. Processing such a matrix is easy and quick in terms of time and memory taken.</p>
+
+<p>There needs to be a threshold for sparcity. In this study, we will consider a threshold of 3%. This means that all words that occur less than 3% of the times would be eliminated. This is a way of finding the vital few.</p>
+
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 855, terms: 788)&gt;&gt;
+## Non-/sparse entries: 51612/622128
+## Sparsity           : 92%
+## Maximal term length: 19
+## Weighting          : term frequency (tf)
+</code></pre>
+
+<h5>Visualization of frequent words</h5>
+
+<p>Now that we have our final matrix needed for our analysis, lets explore it  to understand it better.</p>
+
+<p>Lets look at the most and least frequently occuring words and see if it makes sense in this context.</p>
+
+<pre><code>##   [1] &quot;2000&quot;       &quot;2001&quot;       &quot;agreement&quot;  &quot;also&quot;       &quot;attach&quot;    
+##   [6] &quot;bill&quot;       &quot;busi&quot;       &quot;california&quot; &quot;call&quot;       &quot;can&quot;       
+##  [11] &quot;cap&quot;        &quot;chang&quot;      &quot;comment&quot;    &quot;commiss&quot;    &quot;compani&quot;   
+##  [16] &quot;contract&quot;   &quot;corp&quot;       &quot;cost&quot;       &quot;credit&quot;     &quot;current&quot;   
+##  [21] &quot;custom&quot;     &quot;david&quot;      &quot;day&quot;        &quot;deal&quot;       &quot;demand&quot;    
+##  [26] &quot;discuss&quot;    &quot;document&quot;   &quot;draft&quot;      &quot;electr&quot;     &quot;email&quot;     
+##  [31] &quot;energi&quot;     &quot;enron&quot;      &quot;fax&quot;        &quot;ferc&quot;       &quot;file&quot;      
+##  [36] &quot;first&quot;      &quot;follow&quot;     &quot;forward&quot;    &quot;gas&quot;        &quot;generat&quot;   
+##  [41] &quot;get&quot;        &quot;group&quot;      &quot;houston&quot;    &quot;includ&quot;     &quot;increas&quot;   
+##  [46] &quot;inform&quot;     &quot;iso&quot;        &quot;issu&quot;       &quot;jeff&quot;       &quot;john&quot;      
+##  [51] &quot;just&quot;       &quot;know&quot;       &quot;last&quot;       &quot;legal&quot;      &quot;let&quot;       
+##  [56] &quot;like&quot;       &quot;look&quot;       &quot;make&quot;       &quot;manag&quot;      &quot;mark&quot;      
+##  [61] &quot;market&quot;     &quot;may&quot;        &quot;meet&quot;       &quot;messag&quot;     &quot;month&quot;     
+##  [66] &quot;natur&quot;      &quot;need&quot;       &quot;new&quot;        &quot;now&quot;        &quot;one&quot;       
+##  [71] &quot;oper&quot;       &quot;order&quot;      &quot;origin&quot;     &quot;per&quot;        &quot;plan&quot;      
+##  [76] &quot;plant&quot;      &quot;pleas&quot;      &quot;point&quot;      &quot;power&quot;      &quot;price&quot;     
+##  [81] &quot;product&quot;    &quot;project&quot;    &quot;propos&quot;     &quot;provid&quot;     &quot;purchas&quot;   
+##  [86] &quot;question&quot;   &quot;rate&quot;       &quot;receiv&quot;     &quot;regard&quot;     &quot;report&quot;    
+##  [91] &quot;request&quot;    &quot;requir&quot;     &quot;respons&quot;    &quot;review&quot;     &quot;risk&quot;      
+##  [96] &quot;said&quot;       &quot;say&quot;        &quot;see&quot;        &quot;sent&quot;       &quot;servic&quot;    
+## [101] &quot;state&quot;      &quot;subject&quot;    &quot;suppli&quot;     &quot;system&quot;     &quot;take&quot;      
+## [106] &quot;term&quot;       &quot;thank&quot;      &quot;time&quot;       &quot;trade&quot;      &quot;transact&quot;  
+## [111] &quot;transmiss&quot;  &quot;two&quot;        &quot;use&quot;        &quot;util&quot;       &quot;want&quot;      
+## [116] &quot;week&quot;       &quot;will&quot;       &quot;work&quot;       &quot;year&quot;
+</code></pre>
+
+<p>The above list shows the words that occur atleast 200 times in the data set. It does have a few words one would associate with an energy fraud endeavour. Lets increase the threshold to 400 and see if the words that occur atleast 400 times lends more insights into the scam.</p>
+
+<pre><code>##  [1] &quot;2001&quot;       &quot;agreement&quot;  &quot;also&quot;       &quot;attach&quot;     &quot;california&quot;
+##  [6] &quot;call&quot;       &quot;can&quot;        &quot;chang&quot;      &quot;compani&quot;    &quot;contract&quot;  
+## [11] &quot;electr&quot;     &quot;email&quot;      &quot;energi&quot;     &quot;enron&quot;      &quot;forward&quot;   
+## [16] &quot;gas&quot;        &quot;generat&quot;    &quot;inform&quot;     &quot;know&quot;       &quot;market&quot;    
+## [21] &quot;may&quot;        &quot;need&quot;       &quot;new&quot;        &quot;pleas&quot;      &quot;power&quot;     
+## [26] &quot;price&quot;      &quot;said&quot;       &quot;state&quot;      &quot;subject&quot;    &quot;thank&quot;     
+## [31] &quot;time&quot;       &quot;trade&quot;      &quot;use&quot;        &quot;util&quot;       &quot;will&quot;
+</code></pre>
+
+<p>The words does have terms one would associate with an energy company, but its hard to gain more insights from it.</p>
+
+<p>Instead of setting arbitrary thresholds like 200 and 400 to measure word frequencies, lets find the most and least occurring words and display them. </p>
+
+<pre><code>## [1] 788
+</code></pre>
+
+<pre><code>##  dasovichnaenron           havent            sorri keannaenronenron 
+##               26               26               26               27 
+##   kaminskihouect            readi         therefor           andrew 
+##               28               28               29               30 
+##           attent         consider         dissemin          instead 
+##               30               30               31               31 
+##        afternoon            anyon           format             dear 
+##               32               32               32               33 
+##            delay              els          explain           extend 
+##               33               33               33               33
+</code></pre>
+
+<pre><code>##        may        new        can       said    compani     attach 
+##        509        527        541        543        547        593 
+##      state california     electr    forward     energi      pleas 
+##        670        758        769        776        787        793 
+##        gas    subject      price      email      enron     market 
+##        835        993        997       1001       1047       1170 
+##      power       will 
+##       1199       1580
+</code></pre>
+
+<p>We see that there are 788 words in the list in total. The first table shows the least occurring words and the second, most occurring words.</p>
+
+<p>Lets make some graphical representation of the word occurrences using ggplot.</p>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk ggplot"/> </p>
+
+<p>The word cloud option gives a colorful way of plotting the frequently occurring word.</p>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk cloud"/> </p>
+
+<h4>Clustering of words</h4>
+
+<p>Getting a hierarchical clustering of the data will help understand the patterns in the email data.</p>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk hclust"/> </p>
+
+<p>This shows a clear pattern. Lets make boxes to delinate the 2 clusters.</p>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk hclust1"/> </p>
+
+<p>The pattern very clearly reveal 2 clusters. This is possibly the manifestation of the differences between the responsive and non-responsive emails.</p>
+
+<p>If you have R version that is NOT &ldquo;version 3.2.0&rdquo;, you may try the following vizualization of correlation plot
+library(graph)
+library(Rgraphviz)
+plot(tdm, term = freq.terms, corThreshold = 0.1, weighting = T)
+These packages are not available for R version 3.2.0 that I have. So these plots are omitted from this analysis.</p>
+
+<h4>Models</h4>
+
+<p>Lets start building models to enable the prediction of an email being responsive.</p>
+
+<p>Before that we need to join the cleaned and processed dtm data with our response variable, responsive. And also, we see that some of the column names are not legitimate R column names. So we would have to change the names of these columns. We use the make.names on the colnames to get the column names to legitimate R column names. Lets take a look at the structure of the first 10 rows of dat data frame.</p>
+
+<pre><code>## &#39;data.frame&#39;:    855 obs. of  10 variables:
+##  $ X100  : num  0 0 0 0 0 0 5 0 0 0 ...
+##  $ X1400 : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ X1999 : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ X2000 : num  0 0 1 0 1 0 6 0 1 0 ...
+##  $ X2001 : num  2 1 0 0 0 0 7 0 0 0 ...
+##  $ X713  : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ X77002: num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ abl   : num  0 0 0 0 0 0 2 0 0 0 ...
+##  $ accept: num  0 0 0 0 0 0 1 0 0 0 ...
+##  $ access: num  0 0 0 0 0 0 0 0 0 0 ...
+</code></pre>
+
+<p>We now proceed to split the model into training anf test sets. As always, we use the caret package for this and do a 70/30 split.</p>
+
+<h5>Trees</h5>
+
+<p>Lets start with a simple tree model.</p>
+
+<pre><code>## CART 
+## 
+## 600 samples
+## 788 predictors
+##   2 classes: &#39;no&#39;, &#39;yes&#39; 
+## 
+## No pre-processing
+## Resampling: Bootstrapped (25 reps) 
+## 
+## Summary of sample sizes: 600, 600, 600, 600, 600, 600, ... 
+## 
+## Resampling results across tuning parameters:
+## 
+##   cp          Accuracy   Kappa      Accuracy SD  Kappa SD  
+##   0.05102041  0.8659458  0.4305292  0.01938817   0.07318537
+##   0.08163265  0.8688866  0.4263985  0.01447305   0.06547316
+##   0.22448980  0.8607768  0.3597811  0.02150239   0.16329071
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was cp = 0.08163265.
+</code></pre>
+
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  no yes
+##        no  196  18
+##        yes  18  23
+##                                           
+##                Accuracy : 0.8588          
+##                  95% CI : (0.8099, 0.8991)
+##     No Information Rate : 0.8392          
+##     P-Value [Acc &gt; NIR] : 0.2239          
+##                                           
+##                   Kappa : 0.4769          
+##  Mcnemar&#39;s Test P-Value : 1.0000          
+##                                           
+##             Sensitivity : 0.9159          
+##             Specificity : 0.5610          
+##          Pos Pred Value : 0.9159          
+##          Neg Pred Value : 0.5610          
+##              Prevalence : 0.8392          
+##          Detection Rate : 0.7686          
+##    Detection Prevalence : 0.8392          
+##       Balanced Accuracy : 0.7384          
+##                                           
+##        &#39;Positive&#39; Class : no              
+## 
+</code></pre>
+
+<pre><code>## [1] &quot;The untuned Tree model gives an accuracy of 85.88 %&quot;
+</code></pre>
+
+<p>Lets see if we can improve this model any further by using 10-fold CV</p>
+
+<pre><code>## CART 
+## 
+## 600 samples
+## 788 predictors
+##   2 classes: &#39;no&#39;, &#39;yes&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## 
+## Summary of sample sizes: 541, 539, 540, 540, 540, 540, ... 
+## 
+## Resampling results across tuning parameters:
+## 
+##   cp          Accuracy   Kappa      Accuracy SD  Kappa SD 
+##   0.05102041  0.8733269  0.4185940  0.01407933   0.1108604
+##   0.08163265  0.8582421  0.3797495  0.02687094   0.1162744
+##   0.22448980  0.8533241  0.3854441  0.02586106   0.1054384
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was cp = 0.05102041.
+</code></pre>
+
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  no yes
+##        no  208   6
+##        yes  25  16
+##                                           
+##                Accuracy : 0.8784          
+##                  95% CI : (0.8319, 0.9159)
+##     No Information Rate : 0.9137          
+##     P-Value [Acc &gt; NIR] : 0.978828        
+##                                           
+##                   Kappa : 0.4457          
+##  Mcnemar&#39;s Test P-Value : 0.001225        
+##                                           
+##             Sensitivity : 0.8927          
+##             Specificity : 0.7273          
+##          Pos Pred Value : 0.9720          
+##          Neg Pred Value : 0.3902          
+##              Prevalence : 0.9137          
+##          Detection Rate : 0.8157          
+##    Detection Prevalence : 0.8392          
+##       Balanced Accuracy : 0.8100          
+##                                           
+##        &#39;Positive&#39; Class : no              
+## 
+</code></pre>
+
+<pre><code>## [1] &quot;The Tree model resampled with 10-fold CV gives an accuracy of 87.84 %&quot;
+</code></pre>
+
+<pre><code>## [1] &quot;This tree1 model provides an improvement of 2.28 % over the tree model with default resampling, tree&quot;
+</code></pre>
+
+<p>We enable Parallel Processing to shorten the computing times.</p>
+
+<pre><code>## [1] &quot;Number of registered cores is 4&quot;
+</code></pre>
+
+<p>But the parallel processing may give slightly non-reproducable results.</p>
+
+<p>Lets try random forest model.</p>
+
+<pre><code>## Random Forest 
+## 
+## 600 samples
+## 788 predictors
+##   2 classes: &#39;no&#39;, &#39;yes&#39; 
+## 
+## No pre-processing
+## Resampling: Bootstrapped (25 reps) 
+## 
+## Summary of sample sizes: 600, 600, 600, 600, 600, 600, ... 
+## 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa      Accuracy SD  Kappa SD  
+##     2   0.8557007  0.2201023  0.02506345   0.08798114
+##    39   0.8834694  0.4865361  0.01933275   0.06261451
+##   787   0.8733668  0.4910782  0.02192412   0.06643197
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was mtry = 39.
+</code></pre>
+
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  no yes
+##        no  207   7
+##        yes  23  18
+##                                           
+##                Accuracy : 0.8824          
+##                  95% CI : (0.8363, 0.9192)
+##     No Information Rate : 0.902           
+##     P-Value [Acc &gt; NIR] : 0.87508         
+##                                           
+##                   Kappa : 0.4824          
+##  Mcnemar&#39;s Test P-Value : 0.00617         
+##                                           
+##             Sensitivity : 0.9000          
+##             Specificity : 0.7200          
+##          Pos Pred Value : 0.9673          
+##          Neg Pred Value : 0.4390          
+##              Prevalence : 0.9020          
+##          Detection Rate : 0.8118          
+##    Detection Prevalence : 0.8392          
+##       Balanced Accuracy : 0.8100          
+##                                           
+##        &#39;Positive&#39; Class : no              
+## 
+</code></pre>
+
+<pre><code>## [1] &quot;The untuned rf model gives an accuracy of 88.24 %&quot;
+</code></pre>
+
+<p>Lets continue with RF, but use 10-fold CV as the resampling method instead of the default bootstrapping.</p>
+
+<pre><code>## Random Forest 
+## 
+## 600 samples
+## 788 predictors
+##   2 classes: &#39;no&#39;, &#39;yes&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## 
+## Summary of sample sizes: 540, 540, 540, 540, 540, 541, ... 
+## 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa      Accuracy SD  Kappa SD  
+##     2   0.8533241  0.2111398  0.01538491   0.12676104
+##    39   0.8916583  0.5235368  0.02969497   0.12973168
+##   787   0.8816593  0.5156636  0.02418013   0.09617305
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was mtry = 39.
+</code></pre>
+
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  no yes
+##        no  207   7
+##        yes  22  19
+##                                           
+##                Accuracy : 0.8863          
+##                  95% CI : (0.8408, 0.9225)
+##     No Information Rate : 0.898           
+##     P-Value [Acc &gt; NIR] : 0.76960         
+##                                           
+##                   Kappa : 0.5055          
+##  Mcnemar&#39;s Test P-Value : 0.00933         
+##                                           
+##             Sensitivity : 0.9039          
+##             Specificity : 0.7308          
+##          Pos Pred Value : 0.9673          
+##          Neg Pred Value : 0.4634          
+##              Prevalence : 0.8980          
+##          Detection Rate : 0.8118          
+##    Detection Prevalence : 0.8392          
+##       Balanced Accuracy : 0.8173          
+##                                           
+##        &#39;Positive&#39; Class : no              
+## 
+</code></pre>
+
+<pre><code>## [1] &quot;The 10-fold cross validates rf1 model gives an accuracy of 88.63 %&quot;
+</code></pre>
+
+<p>Lets look at boosting models with 10-fold CV.</p>
+
+<pre><code>## Iter   TrainDeviance   ValidDeviance   StepSize   Improve
+##      1        0.8165             nan     0.1000    0.0304
+##      2        0.7652             nan     0.1000    0.0210
+##      3        0.7243             nan     0.1000    0.0192
+##      4        0.6926             nan     0.1000    0.0130
+##      5        0.6659             nan     0.1000    0.0110
+##      6        0.6378             nan     0.1000    0.0097
+##      7        0.6182             nan     0.1000    0.0056
+##      8        0.5976             nan     0.1000    0.0072
+##      9        0.5741             nan     0.1000    0.0092
+##     10        0.5604             nan     0.1000    0.0044
+##     20        0.4580             nan     0.1000   -0.0002
+##     40        0.3463             nan     0.1000   -0.0010
+##     60        0.2746             nan     0.1000   -0.0005
+##     80        0.2222             nan     0.1000   -0.0011
+##    100        0.1859             nan     0.1000   -0.0003
+##    120        0.1545             nan     0.1000   -0.0006
+##    140        0.1285             nan     0.1000   -0.0005
+##    150        0.1186             nan     0.1000   -0.0008
+</code></pre>
+
+<pre><code>## Stochastic Gradient Boosting 
+## 
+## 600 samples
+## 788 predictors
+##   2 classes: &#39;no&#39;, &#39;yes&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## 
+## Summary of sample sizes: 540, 540, 540, 540, 540, 541, ... 
+## 
+## Resampling results across tuning parameters:
+## 
+##   interaction.depth  n.trees  Accuracy   Kappa      Accuracy SD  Kappa SD 
+##   1                   50      0.8883532  0.5049419  0.03033455   0.1484964
+##   1                  100      0.8900199  0.5290783  0.02727976   0.1362116
+##   1                  150      0.8850472  0.5245633  0.03250218   0.1269035
+##   2                   50      0.8866866  0.5212446  0.02903615   0.1141749
+##   2                  100      0.8801301  0.5235516  0.03995220   0.1334582
+##   2                  150      0.8851301  0.5459358  0.05060417   0.1801084
+##   3                   50      0.8849917  0.5410945  0.03091508   0.1024151
+##   3                  100      0.8968269  0.5856837  0.03146934   0.1085329
+##   3                  150      0.8984926  0.6037266  0.03378634   0.1151348
+## 
+## Tuning parameter &#39;shrinkage&#39; was held constant at a value of 0.1
+## 
+## Tuning parameter &#39;n.minobsinnode&#39; was held constant at a value of 10
+## Accuracy was used to select the optimal model using  the largest value.
+## The final values used for the model were n.trees = 150,
+##  interaction.depth = 3, shrinkage = 0.1 and n.minobsinnode = 10.
+</code></pre>
+
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  no yes
+##        no  203  11
+##        yes  17  24
+##                                           
+##                Accuracy : 0.8902          
+##                  95% CI : (0.8452, 0.9258)
+##     No Information Rate : 0.8627          
+##     P-Value [Acc &gt; NIR] : 0.1164          
+##                                           
+##                   Kappa : 0.5675          
+##  Mcnemar&#39;s Test P-Value : 0.3447          
+##                                           
+##             Sensitivity : 0.9227          
+##             Specificity : 0.6857          
+##          Pos Pred Value : 0.9486          
+##          Neg Pred Value : 0.5854          
+##              Prevalence : 0.8627          
+##          Detection Rate : 0.7961          
+##    Detection Prevalence : 0.8392          
+##       Balanced Accuracy : 0.8042          
+##                                           
+##        &#39;Positive&#39; Class : no              
+## 
+</code></pre>
+
+<pre><code>## [1] &quot;The untuned gbm model gives an accuracy of 89.02 %&quot;
+</code></pre>
+
+<p>Lets try boosting with repeated (10 times) 10-fold CV</p>
+
+<pre><code>## Iter   TrainDeviance   ValidDeviance   StepSize   Improve
+##      1        0.8253             nan     0.1000    0.0261
+##      2        0.7798             nan     0.1000    0.0243
+##      3        0.7428             nan     0.1000    0.0130
+##      4        0.7169             nan     0.1000    0.0117
+##      5        0.6958             nan     0.1000    0.0085
+##      6        0.6677             nan     0.1000    0.0119
+##      7        0.6465             nan     0.1000    0.0093
+##      8        0.6248             nan     0.1000    0.0094
+##      9        0.6110             nan     0.1000    0.0037
+##     10        0.5970             nan     0.1000    0.0048
+##     20        0.5014             nan     0.1000    0.0002
+##     40        0.4029             nan     0.1000   -0.0016
+##     60        0.3384             nan     0.1000   -0.0005
+##     80        0.2901             nan     0.1000   -0.0005
+##    100        0.2531             nan     0.1000   -0.0004
+##    120        0.2258             nan     0.1000   -0.0003
+##    140        0.2004             nan     0.1000    0.0000
+##    150        0.1879             nan     0.1000   -0.0006
+</code></pre>
+
+<pre><code>## Stochastic Gradient Boosting 
+## 
+## 600 samples
+## 788 predictors
+##   2 classes: &#39;no&#39;, &#39;yes&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold, repeated 10 times) 
+## 
+## Summary of sample sizes: 540, 540, 540, 540, 540, 541, ... 
+## 
+## Resampling results across tuning parameters:
+## 
+##   interaction.depth  n.trees  Accuracy   Kappa      Accuracy SD  Kappa SD 
+##   1                   50      0.8896645  0.5086563  0.02596251   0.1318891
+##   1                  100      0.8891671  0.5174007  0.02748121   0.1345337
+##   1                  150      0.8883529  0.5256868  0.02738036   0.1267190
+##   2                   50      0.8890198  0.5237155  0.02924515   0.1377207
+##   2                  100      0.8905138  0.5437611  0.02995274   0.1341897
+##   2                  150      0.8923365  0.5590687  0.03060617   0.1318434
+##   3                   50      0.8893726  0.5338388  0.02923969   0.1343311
+##   3                  100      0.8917144  0.5602019  0.03064733   0.1242132
+##   3                  150      0.8893500  0.5579120  0.03205612   0.1225029
+## 
+## Tuning parameter &#39;shrinkage&#39; was held constant at a value of 0.1
+## 
+## Tuning parameter &#39;n.minobsinnode&#39; was held constant at a value of 10
+## Accuracy was used to select the optimal model using  the largest value.
+## The final values used for the model were n.trees = 150,
+##  interaction.depth = 2, shrinkage = 0.1 and n.minobsinnode = 10.
+</code></pre>
+
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  no yes
+##        no  204  10
+##        yes  18  23
+##                                           
+##                Accuracy : 0.8902          
+##                  95% CI : (0.8452, 0.9258)
+##     No Information Rate : 0.8706          
+##     P-Value [Acc &gt; NIR] : 0.2024          
+##                                           
+##                   Kappa : 0.5583          
+##  Mcnemar&#39;s Test P-Value : 0.1859          
+##                                           
+##             Sensitivity : 0.9189          
+##             Specificity : 0.6970          
+##          Pos Pred Value : 0.9533          
+##          Neg Pred Value : 0.5610          
+##              Prevalence : 0.8706          
+##          Detection Rate : 0.8000          
+##    Detection Prevalence : 0.8392          
+##       Balanced Accuracy : 0.8079          
+##                                           
+##        &#39;Positive&#39; Class : no              
+## 
+</code></pre>
+
+<pre><code>## [1] &quot;The untuned gbm model gives an accuracy of 89.02 %&quot;
+</code></pre>
+
+<p>Lets look at the 20 most important contributors to the gbm1 model prediction.</p>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk gbm_imp"/> </p>
+
+<p>The plot makes sense in the context of the problem in hand. We see that the most important predictior words, in decreasing order of importance are:</p>
+
+<ul>
+<li>California</li>
+<li>price</li>
+<li>load</li>
+<li>capac (capacity)</li>
+<li>demand</li>
+</ul>
+
+<p>which fits well within the context of energy company and demand manipulation.</p>
+
+<p>Since we find that the word &#39;california&#39; is the most important predictor word, it would be insightful to know which words are closely associated, in statistical terms, correlated with it. Lets look at the set of words which are correlated with the occurrence of the word &#39;california&#39;. We specift the correlation threshold to be 0.7.</p>
+
+<p>Lets repeat the process for the 5 most important predictor words. The correlation threshold for the second and other important predictor words are set to 0.6.</p>
+
+<pre><code>## $california
+##   electr   consum   profit   public     caus wholesal     time     busi 
+##     0.87     0.84     0.80     0.80     0.78     0.78     0.77     0.76 
+##    everi    price   action   energi    found     paid    state  practic 
+##     0.75     0.75     0.73     0.73     0.73     0.73     0.73     0.72 
+##      act   dollar      use    power 
+##     0.71     0.71     0.71     0.70
+</code></pre>
+
+<pre><code>## $price
+## california     electr   wholesal      among     consum      level 
+##       0.75       0.73       0.72       0.71       0.71       0.71 
+##     market     profit     action       caus       part     demand 
+##       0.69       0.68       0.67       0.67       0.67       0.65 
+##     public     period    practic     suppli     trader        act 
+##       0.65       0.64       0.64       0.64       0.64       0.63 
+##     result       2000       base      power       real       time 
+##       0.63       0.62       0.62       0.62       0.62       0.62 
+##       fact      plant     includ 
+##       0.61       0.61       0.60
+</code></pre>
+
+<pre><code>## $load
+## staff 
+##  0.62
+</code></pre>
+
+<pre><code>## $capac
+##  bid 
+## 0.67
+</code></pre>
+
+<pre><code>## $demand
+##   suppli   electr  generat     part    price   market    among   custom 
+##     0.79     0.69     0.67     0.65     0.65     0.64     0.62     0.62 
+##    plant     rais     caus competit   energi    power 
+##     0.62     0.62     0.61     0.61     0.60     0.60
+</code></pre>
+
+<p>Not surprisingly, we see that electr(icity), consum(er) and profit are most correlated with california. Its worth keeping in mind that the alphabets within brackets indicate the parts of words removed by stemming.</p>
+
+<h3>Result</h3>
+
+<pre><code>## [1] &quot;The least accurate prediction was 85.88 %, given by tree model&quot;
+</code></pre>
+
+<pre><code>## [1] &quot;The most accurate prediction was 89.02 %, given by gbm model&quot;
+</code></pre>
+
+<pre><code>## [1] &quot;The most accurate model gbm gives an improvement of 3.656% over the least accurate model of tree&quot;
+</code></pre>
+
+<pre><code>## [1] &quot;With this model, we can expect close to 89.02% of correct predictions of responsiveness on a similar email datset that the model hasnt &#39;seen&#39; yet.&quot;
+</code></pre>
+
+<h3>Conclusion</h3>
+
+<p>We have used text analytics to decipher and evaluate a set of emails with respect to a response variable that characterizes the emails into 2 mutually exclusive categories.</p>
+
+<p>In the process of setting up the model, we explored the various preprocessing options like</p>
+
+<ul>
+<li>converting the text to lower case</li>
+<li>removing punctuations</li>
+<li>definition and use of stop words</li>
+<li>introduction to stemming, types and its use in text analytics</li>
+<li>converting the data into a sparse matrix form</li>
+<li>numerous representations of frequently occurring words using ggplot and word cloud</li>
+<li>hierarchical clustering of the data to reveal clear patterns in the emails</li>
+<li>setting up of parallel processing</li>
+<li>CART models</li>
+<li>Random Forest models</li>
+<li>Boosting models</li>
+<li>important predictor words from the model</li>
+<li>correlations of most important predictors</li>
+</ul>
+
+<p>This analysis forms part of whats called &#39;predictive coding&#39;. In essence, predictive coding gets the input from a human, who reviews samples of documents and marks them according to the need of the task (responsive or benign in out context) and uses this human decision as its input to predict or generalize these decisions across a larger collection of documents. So this allows to atleast partly replace, if not predominantly, the expensive and tedious manual investigation of a large set of documents by computer programs. </p>
+
+<p>This is of great importance as recently, in April 2012, a state judge in Virginia issued the first state court ruling allowing the use of predictive coding in e-discovery in the case Global Aerospace, Inc. With such a ruling, its not difficult to see the optential and scope for predictive coding.</p>
+
+<p>Footnote:
+If the file gives any error while being converted to htlm using the &#39;Knit HTML&#39; option in RStudio, the follwing code snippet can be used.
+library(knitr)
+knit2html(&ldquo;enron.Rmd&rdquo;)</p>
+
+</body>
+
+</html>
