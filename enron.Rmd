@@ -332,6 +332,8 @@ Lets start with a simple tree model.
 ```{r tree,echo=FALSE,message=FALSE,warning=FALSE}
 tree <- train(resp ~., data = train, method = "rpart")
 tree
+library(rattle)
+fancyRpartPlot(tree$finalModel)
 tree.pred = predict(tree,test)
 confusionMatrix(test$resp,tree.pred)
 accu_tree = confusionMatrix(test$resp, tree.pred)$overall[1]
@@ -346,6 +348,7 @@ Lets see if we can improve this model any further by using 10-fold CV
 fitControl <- trainControl(method ="cv",number = 10)
 tree1 <- train(resp ~., data = train, method = "rpart", trControl = fitControl)
 tree1
+fancyRpartPlot(tree1$finalModel)
 tree1.pred = predict(tree1,test)
 confusionMatrix(test$resp,tree1.pred)
 accu_tree1 = confusionMatrix(test$resp, tree1.pred)$overall[1]
